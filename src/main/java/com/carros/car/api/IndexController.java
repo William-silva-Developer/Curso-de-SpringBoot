@@ -10,7 +10,7 @@ public class IndexController {
 	
 	@GetMapping()
 	public String getAll() {
-		return "Olá mundo";
+		return "Olá, sou o index. Estou em desenvolvimento ainda. Aguarde que logo mais estaremos pronto.";
 	}
 
 }
