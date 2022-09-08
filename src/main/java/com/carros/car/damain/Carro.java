@@ -17,6 +17,7 @@ public class Carro {
 	@Column(name = "nome")
 	private String name;
 	
+	private String tipo;
 	
 	//CONSTRUTOR VAZIO
 	public Carro() {
@@ -47,6 +48,16 @@ public class Carro {
 
 	public void setNome(String nome) {
 		this.name = nome;
+	}
+
+
+	public String getTipo() {
+		return tipo;
+	}
+
+
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
 	};
 	
 	

@@ -2,9 +2,11 @@ package com.carros.car.damain;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import com.carros.car.repositories.CarroRepository;
 
@@ -18,18 +20,20 @@ public class CarroService {
 	//RENDERIZAR TODOS OS CARROS NO NAVEGADOR
 	public Iterable<Carro> getCarros(){
 		return repCar.findAll();
-	};
-	
-	
-	public List<Carro> getCarrosFike(){
-		
-		List<Carro> carros = new ArrayList<>();
-		
-		carros.add(new Carro(1L, "Fusca" ));
-		carros.add(new Carro(2L, "Chevette" ));
-		carros.add(new Carro(3L, "Brasilia" ));
-		
-		return carros;
-	};
+	}
 
+	
+	//BUSCAR CARRO POR ID
+	public Optional<Carro> getCarFindId(Long id) {	
+		return repCar.findById(id); 
+	}
+
+
+	public Iterable<Carro> getCarByTipo(String tipo) {
+		// TODO Auto-generated method stub
+		return repCar.findByTipo(tipo);
+	};
+	
+	
+	
 };
