@@ -10,4 +10,6 @@ public interface CarroRepository extends CrudRepository<Carro, Long> {
 	//MÉTODO PARA BUSCAR POR TIPO
 	Iterable<Carro> findByTipo(String tipo);
 
+	
+
 }
