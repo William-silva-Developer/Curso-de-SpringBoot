@@ -7,7 +7,21 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+//import lombok.AllArgsConstructor;
+import lombok.Data;
+//import lombok.EqualsAndHashCode;
+import lombok.Getter;
+//import lombok.NoArgsConstructor;
+import lombok.Setter;
+//import lombok.ToString;
+
 @Entity(name = "carro")
+@Getter @Setter
+@Data
+/*@ToString
+@EqualsAndHashCode
+@NoArgsConstructor
+@AllArgsConstructor*/
 public class Carro {
 	
 	@Id
@@ -19,46 +33,9 @@ public class Carro {
 	
 	private String tipo;
 	
-	//CONSTRUTOR VAZIO
-	public Carro() {
-		
-	};
 	
+
 	
-	public Carro(Long id, String nome) {
-		this.id = id;
-		this.name = nome;
-	};
-
-
-	public Long getId() {
-		return id;
-	};
-
-
-	public void setId(Long id) {
-		this.id = id;
-	};
-
-
-	public String getNome() {
-		return name;
-	};
-
-
-	public void setNome(String nome) {
-		this.name = nome;
-	}
-
-
-	public String getTipo() {
-		return tipo;
-	}
-
-
-	public void setTipo(String tipo) {
-		this.tipo = tipo;
-	};
 	
 	
 

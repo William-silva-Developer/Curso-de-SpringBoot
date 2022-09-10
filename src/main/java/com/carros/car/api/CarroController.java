@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,19 +25,39 @@ public class CarroController {
 	private CarroService service;
 	
 	@GetMapping()
-	public Iterable<Carro> getCar(){
-		return service.getCarros();
+	public ResponseEntity<Iterable<Carro>> getCar(){
+		
+		return ResponseEntity.ok(service.getCarros());		//RETORNARÁ O STATUS 200
+		
 	};
 	
 	
 	@GetMapping("/{id}")
-	public Optional<Carro> getCarId(@PathVariable("id") Long id){
-		return service.getCarFindId(id);
+	public ResponseEntity<Carro> getCarId(@PathVariable("id") Long id){
+		//return service.getCarFindId(id);
+		Optional<Carro> carro = service.getCarFindId(id);
+		
+		return carro.isPresent() ? 
+				ResponseEntity.ok(carro.get()) :					//O MÉTODO COMENTADO ESTÁ CORRETO, PORÉM DEIXEI ATIVO O TERNÁRIO POR SER MAIS ENXUTO.
+					ResponseEntity.notFound().build();
+																	//RETORNARÁ O STATUS 404 CASO NÃO ENCONTRE.
+		/*if(carro.isPresent()) {
+			return ResponseEntity.ok(carro.get());
+		}else {
+			return ResponseEntity.notFound().build();
+		};
+		*/
 	};
 	
+	
 	@GetMapping("/tipo/{tipo}")
-	public Iterable<Carro> getCarTipo(@PathVariable("tipo") String tipo){
-		return service.getCarByTipo(tipo);
+	public ResponseEntity getCarTipo(@PathVariable("tipo") String tipo){
+		List<Carro> carros = service.getCarByTipo(tipo);
+		
+		return carros.isEmpty() ?
+				ResponseEntity.noContent().build() :
+					ResponseEntity.ok(carros);			//CASO O TIPO NÃO EXISTA O RETORNO DO STATUS SERÁ 204,CASO EXISTA RETORNARÁ O TIPO E O STATUS SERÁ 200.
+		
 	};
 	
 	
@@ -62,3 +83,31 @@ public class CarroController {
 	
 	
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -31,7 +31,7 @@ public class CarroService {
 	}
 
 	//MÉTODO PARA BUSCAR POR TIPO
-	public Iterable<Carro> getCarByTipo(String tipo) {
+	public List<Carro> getCarByTipo(String tipo) {
 		// TODO Auto-generated method stub
 		return repCar.findByTipo(tipo);
 	}
