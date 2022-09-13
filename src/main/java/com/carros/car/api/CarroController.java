@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.carros.car.damain.Carro;
 import com.carros.car.damain.CarroService;
+import com.carros.car.damain.dto.CarroDTO;
 
 @RestController
 @RequestMapping("/api/v1/carros")
@@ -25,17 +26,16 @@ public class CarroController {
 	private CarroService service;
 	
 	@GetMapping()
-	public ResponseEntity<Iterable<Carro>> getCar(){
-		
-		return ResponseEntity.ok(service.getCarros());		//RETORNARÁ O STATUS 200
+	public ResponseEntity<List<CarroDTO>> getCar(){
+			return ResponseEntity.ok(service.getCarros());		//RETORNARÁ O STATUS 200
 		
 	};
 	
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<Carro> getCarId(@PathVariable("id") Long id){
+	public ResponseEntity<CarroDTO> getCarId(@PathVariable("id") Long id){
 		//return service.getCarFindId(id);
-		Optional<Carro> carro = service.getCarFindId(id);
+		Optional<CarroDTO> carro = service.getCarFindId(id);
 		
 		return carro.isPresent() ? 
 				ResponseEntity.ok(carro.get()) :					//O MÉTODO COMENTADO ESTÁ CORRETO, PORÉM DEIXEI ATIVO O TERNÁRIO POR SER MAIS ENXUTO.
@@ -51,8 +51,8 @@ public class CarroController {
 	
 	
 	@GetMapping("/tipo/{tipo}")
-	public ResponseEntity getCarTipo(@PathVariable("tipo") String tipo){
-		List<Carro> carros = service.getCarByTipo(tipo);
+	public ResponseEntity<List<CarroDTO>>  getCarTipo(@PathVariable("tipo") String tipo){
+		List<CarroDTO> carros = service.getCarByTipo(tipo);
 		
 		return carros.isEmpty() ?
 				ResponseEntity.noContent().build() :

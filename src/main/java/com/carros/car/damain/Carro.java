@@ -1,7 +1,7 @@
 package com.carros.car.damain;
 
 
-import javax.persistence.Column;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -28,8 +28,8 @@ public class Carro {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(name = "nome")
-	private String name;
+	
+	private String nome;
 	
 	private String tipo;
 	

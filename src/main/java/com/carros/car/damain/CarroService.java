@@ -3,6 +3,7 @@ package com.carros.car.damain;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.apache.logging.log4j.message.Message;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import com.carros.car.damain.dto.CarroDTO;
 import com.carros.car.repositories.CarroRepository;
 
 @Service
@@ -20,20 +22,26 @@ public class CarroService {
 	
 	
 	//RENDERIZAR TODOS OS CARROS NO NAVEGADOR
-	public Iterable<Carro> getCarros(){
-		return repCar.findAll();
+	public List<CarroDTO> getCarros(){
+		
+		
+		return repCar.findAll().stream().map(CarroDTO::new).collect(Collectors.toList());
+		/*RESUMO: O 'FINDALL()' CHAMA UMA LISTA DE CARROS,
+		O MÉTODO 'STREAM' AJUDA A MAPEAR A LISTA E O 'CarroDTO::new' PERCORRE CARRO POR CARRO
+		EM SEGUIDA COM O 'collect(Collectors.toList())' É GERADA UMA NOVA LISTA DE CARRODTO. 
+		*/
 	}
 
 	
 	//MÉTODO PARA BUSCAR CARRO POR ID
-	public Optional<Carro> getCarFindId(Long id) {	
-		return repCar.findById(id); 
+	public Optional<CarroDTO> getCarFindId(Long id) {	
+		return repCar.findById(id).map(CarroDTO::new);
 	}
 
 	//MÉTODO PARA BUSCAR POR TIPO
-	public List<Carro> getCarByTipo(String tipo) {
-		// TODO Auto-generated method stub
-		return repCar.findByTipo(tipo);
+	public List<CarroDTO> getCarByTipo(String tipo) {
+	
+		return repCar.findByTipo(tipo).stream().map(CarroDTO::new).collect(Collectors.toList());
 	}
 
 	//MÉTODO PARA SALVAR UM CARRO
@@ -46,16 +54,17 @@ public class CarroService {
 	}
 
 
-	public Carro update(Carro carro, Long id) {
+	public CarroDTO update(Carro carro, Long id) {
 		//VERIFICAR SE O ID EXISTE. CASO NÃO EXISTA O MÉTODO RETORNARÁ ESTÁ MENSAGEM
 		Assert.notNull(id, "Não foi possível atualizar o registro.");
 		
-		Optional<Carro> optional = getCarFindId(id);
+		Optional<CarroDTO> optional = getCarFindId(id);
 		if(optional.isPresent()) {
-			Carro db = optional.get();
+			CarroDTO db = optional.get();
 			
 			//FAZENDO UMA COPIA DAS PROPRIEDADES DO OBJETO
 			db.setNome(carro.getNome());
+			db.setTipo(carro.getTipo());
 			db.setTipo(carro.getTipo());
 			System.out.println("Carro id:" + db.getId());
 			
@@ -71,8 +80,8 @@ public class CarroService {
 	//MÉTODO PARA DELETAR O OBJETO PELO ID
 	public void delete(Long id) {
 		
-		Optional<Carro> optional = getCarFindId(id);
-		if(optional.isPresent()) {
+		
+		if(getCarFindId(id).isPresent()) {
 			repCar.deleteById(id);
 		};
 		
